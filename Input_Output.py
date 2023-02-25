@@ -1,7 +1,6 @@
-import Tax_And_Budget_Classes as tb
+from Tax_And_Budget_Classes import round_twosf, round_twosf_month, Taxes, Budget
 import time
 
-# import os
 
 # Taxes inputs
 print(
@@ -11,7 +10,7 @@ time.sleep(5)
 gi = float(input("\nPlease enter your annual gross salary: £"))  # Gross Income
 ct = float(input("Please enter your annual council tax: £"))  # Council Tax
 
-gross_income = tb.Taxes(gi, ct)
+gross_income = Taxes(gi, ct)
 
 # Option1 = student loan selection, option2 = budget selection. Also while loops to ensure they input the correct results
 option1 = input(
@@ -42,12 +41,10 @@ if option2 == "y" or option2 == "Y":
     miscellaneous = int(
         input("Please enter your monthly miscellaneous budget: £")
     )  # Miscellaneous
-    budget = tb.Budget(
+    budget = Budget(
         rent, bills, food, toiletries, savings, miscellaneous, gross_income
     )  # rent, bills, food, toiletries, savings, miscellaneous
 
-# print("\n"*100)
-# os.system('cls')
 print("\nLoading, please wait...")
 time.sleep(3)
 
@@ -55,36 +52,36 @@ time.sleep(3)
 print("\nIncome and Tax\n----------------------------------------------------------")
 print(
     f"Annual Gross Income: £{gi:.2f} (£{(gi) / 12:.2f} per month)"
-    f"\n Tax-Free Allowance: £{round(gross_income.get_income_tax()[1], 2):.2f} (£{round((gross_income.get_income_tax()[1]) / 12, 2):.2f} per month) "
-    f"\n     Taxable Income: £{round(gross_income.get_income_tax()[2], 2):.2f} (£{round((gross_income.get_income_tax()[2]) / 12, 2):.2f} per month) "
-    f"\n\n         Income Tax: £{round(gross_income.get_income_tax()[0], 2):.2f}  (£{round((gross_income.get_income_tax()[0]) / 12, 2):.2f} per month)"
-    f"\n             NI Tax: £{round(gross_income.get_NI_tax(), 2):.2f} (£{round((gross_income.get_NI_tax()) / 12, 2):.2f} per month)"
+    f"\n Tax-Free Allowance: £{round_twosf(gross_income.get_income_tax()[1])} (£{round_twosf_month(gross_income.get_income_tax()[1])} per month) "
+    f"\n     Taxable Income: £{round_twosf(gross_income.get_income_tax()[2])} (£{round_twosf_month(gross_income.get_income_tax()[2])} per month) "
+    f"\n\n         Income Tax: £{round_twosf(gross_income.get_income_tax()[0])}  (£{round_twosf_month(gross_income.get_income_tax()[0])} per month)"
+    f"\n             NI Tax: £{round_twosf(gross_income.get_NI_tax())} (£{round_twosf_month(gross_income.get_NI_tax())} per month)"
     f"\n        Council Tax: £{ct:.2f} (£{ct / 12:.2f} per month)"
 )
 
 # Conditional sections. This prints the statements whether they have said yes or no to student loan or budget
 if option1 == "Y" or option1 == "y":  # Student loan
     print(
-        f"        Student Tax: £{round(gross_income.get_student_tax(), 2):.2f} (£{round((gross_income.get_student_tax()) / 12, 2):.2f} per month) "
-        f"\n        Overall Tax: £{round(gross_income.get_total_tax(), 2):.2f} (£{round((gross_income.get_total_tax()) / 12, 2):.2f} per month with student tax) "
-        f"\n    Overall Income: £{round(gross_income.calculate_income(), 2):.2f} (£{round((gross_income.calculate_income()) / 12, 2):.2f} per month with student tax)"
+        f"        Student Tax: £{round_twosf(gross_income.get_student_tax())} (£{round_twosf_month(gross_income.get_student_tax())} per month) "
+        f"\n        Overall Tax: £{round_twosf(gross_income.get_total_tax())} (£{round_twosf_month(gross_income.get_total_tax())} per month) "
+        f"\n    Overall Income: £{round_twosf(gross_income.calculate_income())} (£{round_twosf_month(gross_income.calculate_income())} per month)"
     )
     if option2 == "Y" or option2 == "y":  # Student loan + budget
         print(
             "\nBudget\n----------------------------------------------------------"
-            f"\n      Yearly Budget: £{round(budget.calculate_monthly_budget(), 2):.2f} (£{round(budget.calculate_monthly_budget(), 2):.2f} per month)"
-            f"\n        Profit/Loss: £{round(budget.calculate_profit(), 2):.2f} (£{round((budget.calculate_profit()) / 12, 2):.2f} per month with student tax)"
+            f"\n      Yearly Budget: £{round_twosf(budget.calculate_yearly_budget())} (£{round_twosf_month(budget.calculate_monthly_budget())} per month)"
+            f"\n        Profit/Loss: £{round_twosf(budget.calculate_profit())} (£{round_twosf_month(budget.calculate_profit())} per month)"
         )
 
 
 else:  # No student loan
     print(
-        f"        Overall Tax: £{round(gross_income.get_total_tax_wost(), 2):.2f} (£{round((gross_income.get_total_tax_wost()) / 12, 2):.2f} per month without student tax) "
-        f"\n     Overall Income: £{round(gross_income.calculate_income_wost(), 2):.2f} (£{round((gross_income.calculate_income_wost()) / 12, 2):.2f} per month without student tax)"
+        f"        Overall Tax: £{round_twosf(gross_income.get_total_tax_wost())} (£{round_twosf_month(gross_income.get_total_tax_wost())} per month) "
+        f"\n     Overall Income: £{round_twosf(gross_income.calculate_income_wost())} (£{round_twosf_month(gross_income.calculate_income_wost())} per month)"
     )
     if option2 == "Y" or option2 == "y":  # No student loan + budget
         print(
             f"\nBudget\n----------------------------------------------------------"
-            f"\n      Yearly Budget: £{round(budget.calculate_yearly_budget(), 2):.2f} (£{round(budget.calculate_monthly_budget(), 2):.2f} per month) "
-            f"\n        Profit/Loss: £{round(budget.calculate_profit_wost(), 2):.2f} (£{round((budget.calculate_profit_wost()) / 12, 2):.2f} per month without student tax)"
+            f"\n      Yearly Budget: £{round_twosf(budget.calculate_yearly_budget())} (£{round_twosf_month(budget.calculate_monthly_budget())} per month) "
+            f"\n        Profit/Loss: £{round_twosf(budget.calculate_profit_wost())} (£{round_twosf_month(budget.calculate_profit_wost())} per month)"
         )
