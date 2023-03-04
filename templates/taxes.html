@@ -7,15 +7,20 @@
     <title>mems22 | Taxes calculation website</title>
   </head>
   <body>
-    <h1>Hello there!</h1>
-    <h2>This is where taxes will be!</h2>
-    <form>
-      <p style="margin: 0">Please enter your annual gross salary:</p>
-      <input type="text" /> <br />
+    <h1>Taxes page calculation</h1>
+    <form method="POST" action="" name="taxes_form">
+      {% csrf_token %} {{TaxesForm.as_p}}
 
-      <p style="margin: 0">Please enter your annual council tax:</p>
-      <input type="text" /> <br />
-      <input type="submit" />
+      <input type="submit" value="Submit" name="taxes_form" />
     </form>
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {{ message }}</li>
+        {% endfor %}
+    </ul>
+   {% endif %}
   </body>
 </html>
