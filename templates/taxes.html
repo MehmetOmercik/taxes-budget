@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mems22 | Taxes calculation website</title>
+    <style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
   </head>
   <body>
     <h1>Taxes page calculation</h1>
@@ -13,7 +18,7 @@
 
       <input type="submit" value="Submit" name="taxes_form" />
     </form>
-    
+
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -22,5 +27,25 @@
         {% endfor %}
     </ul>
    {% endif %}
+    <br>
+  
+   {% if final_results %}
+    <table style="width:100%">
+      <tr>
+        <th>Income</th>
+        <th>Annually</th>
+        <th>Monthly</th>
+      </tr>
+      {% for result in final_results %}
+      <tr>
+        <td>{{result.0}}</td>
+        <td>{{result.1}}</td> 
+        <td>{{result.2}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  
+
   </body>
 </html>
