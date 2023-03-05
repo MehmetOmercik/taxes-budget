@@ -12,7 +12,7 @@ class TaxesForm(forms.Form):
         label="What is your annual Gross Salary? £", max_length=10
     )
     council_tax = forms.CharField(
-        label="What is your annual council tax? £", max_length=10
+        label="What is your annual Council tax? £", max_length=10
     )
     student_loan = forms.TypedChoiceField(
         label="Are you repaying student loan?", choices=CHOICES

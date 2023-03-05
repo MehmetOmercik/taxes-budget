@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib import messages
 import re
 
@@ -7,7 +8,9 @@ from .Tax_And_Budget_Classes import Taxes, Budget, round_twosf, round_twosf_mont
 
 # Create your views here.
 def Home(request):
-    context = {"TaxesForm": TaxesForm(), "BudgetForm": BudgetForm()}
+    final_results_income = []
+    final_results_budget = []
+    budget_hide = 1
     if "taxes_form" in request.POST:
         # print(request.POST)
 
@@ -54,8 +57,6 @@ def Home(request):
             actions_income.append(
                 ["Total Income", gross_income.calculate_income_wost()]
             )
-
-        final_results_income = []
 
         for action in actions_income:
             final_results_income.append(
@@ -132,8 +133,6 @@ def Home(request):
         else:
             actions_budget.append(["Profit/Loss", budget.calculate_profit_wost()])
 
-        final_results_budget = []
-
         for action in actions_budget:
             final_results_budget.append(
                 [
@@ -142,16 +141,15 @@ def Home(request):
                     f"£{round_twosf_month(action[1])}",
                 ]
             )
-        budget_hide = 0
-        if final_results_budget[0][1] == "£0.00":
-            budget_hide = 1
 
-        context = {
-            "TaxesForm": TaxesForm(),
-            "BudgetForm": BudgetForm(),
-            "final_results_income": final_results_income,
-            "final_results_budget": final_results_budget,
-            "budget_hide": budget_hide,
-        }
+        if final_results_budget[0][1] != "£0.00":
+            budget_hide = 0
 
+    context = {
+        "TaxesForm": TaxesForm(),
+        "BudgetForm": BudgetForm(),
+        "final_results_income": final_results_income,
+        "final_results_budget": final_results_budget,
+        "budget_hide": budget_hide,
+    }
     return render(request, "taxes.html", context)
