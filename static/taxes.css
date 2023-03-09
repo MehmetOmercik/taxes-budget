@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;700;900&display=swap");
-html {
-  height: clamp(100vh, 100vh, 200vh);
-}
+
 body {
   background: linear-gradient(to left, rgba(0, 0, 0, 0.798), gray) no-repeat;
-  /* height: clamp(96.5vh, 96.5vh, 96.5vh); */
+  min-height: 96.5vh;
   font-size: 1.2rem;
   color: whitesmoke;
   font-family: "Red Hat Display", sans-serif;
-  padding: 1.2rem;
+  padding: 0 1.2rem 1rem 1.2rem;
+  /* color: red; */
   /* display: flex;
   flex-direction: column; */
 }
@@ -17,4 +16,25 @@ table,
 th,
 td {
   border: 2px solid black;
+  border-radius: 0.5rem;
+}
+
+th:hover,
+tr:hover,
+input:hover,
+select:hover {
+  background: rgba(201, 171, 0, 0.643);
+  transition-duration: 250ms;
+}
+
+input,
+select {
+  border-radius: 0.3rem;
+  background: rgb(196, 196, 196);
+  /* width: 30px; */
+}
+
+/*prevents label from activating input:hover*/
+label {
+  pointer-events: none;
 }
