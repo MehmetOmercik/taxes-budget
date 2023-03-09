@@ -17,6 +17,9 @@ class TaxesForm(forms.Form):
     student_loan = forms.TypedChoiceField(
         label="Are you repaying student loan?", choices=CHOICES
     )
+    budget = forms.TypedChoiceField(
+        label="Would you like to add a budget?", choices=CHOICES
+    )
 
 
 class BudgetForm(forms.Form):

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,18 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>mems22 | Taxes calculation website</title>
-    <style>
-      table, th, td {
-        border:1px solid black;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'taxes.css' %}" />
+    <script type="text/javascript" src="{% static 'taxes.js' %}" defer></script>
   </head>
   <body>
     <h1>Taxes page calculation</h1>
     <form method="POST" action="" name="taxes_form">
       {% csrf_token %} {{TaxesForm.as_p}} 
-      <h3>Budget (Optional)</h3>
-      {{BudgetForm.as_p}}
+
+      
+      <section id="budget_section" hidden>
+        <h3>Budget (Optional)</h3>
+        {{BudgetForm.as_p}}
+      </section>
+      
       <input type="submit" value="Submit" name="taxes_form" />
     </form>
 
