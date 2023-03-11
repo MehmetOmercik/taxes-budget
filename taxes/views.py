@@ -11,7 +11,16 @@ def Home(request):
     final_results_income = []
     final_results_budget = []
     budget_hide = 1
+
+    # This and the taxes_form below is used to reset or persist data
+    taxes_form = TaxesForm()
+    budget_form = BudgetForm()
+    # if taxes_form.is_valid():
+    #     context2 = taxes_form.cleaned_data.get("gross_salary")
+    # print(context2)
     if "taxes_form" in request.POST:
+        taxes_form = TaxesForm(request.POST)
+        budget_form = BudgetForm(request.POST)
         # print(request.POST)
 
         """INCOME SECTION"""
@@ -146,8 +155,8 @@ def Home(request):
             budget_hide = 0
 
     context = {
-        "TaxesForm": TaxesForm(),
-        "BudgetForm": BudgetForm(),
+        "TaxesForm": taxes_form,
+        "BudgetForm": budget_form,
         "final_results_income": final_results_income,
         "final_results_budget": final_results_budget,
         "budget_hide": budget_hide,
