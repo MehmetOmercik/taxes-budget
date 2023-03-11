@@ -1,5 +1,6 @@
 const budgetButton = document.getElementById("id_budget");
 const budgetSection = document.getElementById("budget_section");
+const resetButton = document.getElementById("reset");
 
 //Used to hide/reveal budget section
 const budgetChecker = () => {
@@ -8,6 +9,10 @@ const budgetChecker = () => {
   } else {
     budgetSection.setAttribute("hidden", "hidden");
   }
+};
+
+const resetHandler = () => {
+  window.location.reload();
 };
 
 //Ensures that budget section remains visible after submission
@@ -19,4 +24,6 @@ if (budgetButton.value == "True") {
 if (window.history.replaceState) {
   window.history.replaceState(null, null, window.location.href);
 }
+
 budgetButton.addEventListener("change", budgetChecker);
+resetButton.addEventListener("click", resetHandler);

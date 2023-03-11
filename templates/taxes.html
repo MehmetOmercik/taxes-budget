@@ -12,17 +12,18 @@
   </head>
   <body>
     <h1>Taxes page calculation</h1>
-    <form method="POST" action="" name="taxes_form">
+    <form method="POST" action="">
       {% csrf_token %} {{TaxesForm.as_p}} 
 
-      
       <section id="budget_section" hidden>
         <h3>Budget (Optional)</h3>
         {{BudgetForm.as_p}}
       </section>
-      
-      <input type="submit" value="Submit" name="taxes_form" />
-    </form>
+      <div>
+        <input type="submit" id="submit" value="Submit" name="taxes_form" />
+        <input type="reset" id="reset" value="Reset" />  
+      </div>
+      </form>
 
     {% if messages %}
     <ul class="messages">
