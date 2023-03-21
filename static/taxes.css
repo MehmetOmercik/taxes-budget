@@ -1,40 +1,112 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;700;900&display=swap");
+:root {
+  --color-light: white;
+  --color-dark: #212121;
+  --color-signal: #fab700;
+
+  --color-background: var(--color-light);
+  --color-text: var(--color-dark);
+  --color-accent: var(--color-signal);
+
+  --size-bezel: 0.5rem;
+  --size-radius: 4px;
+}
+
+*,
+*::after,
+*::before {
+  /* margin: 0; */
+  /* padding: 0; */
+  box-sizing: border-box;
+}
 
 body {
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.798), gray) no-repeat;
-  min-height: 96.5vh;
-  font-size: 1.2rem;
+  /* Tosca Green #17806d */
+  background: linear-gradient(
+    to right,
+    rgba(70, 1, 189, 0.798),
+    rgb(183, 183, 183)
+  );
+  /* font-size: 1.2rem; */
   color: whitesmoke;
-  font-family: "Red Hat Display", sans-serif;
-  padding: 0 1.2rem 1rem 1.2rem;
-  /* color: red; */
-  /* display: flex;
-  flex-direction: column; */
+  font: 1.2rem "Red Hat Display", sans-serif;
+  padding: 1.4rem;
+  padding-top: 1rem;
 }
 
-table,
-th,
-td {
-  border: 2px solid black;
-  border-radius: 0.5rem;
-}
-
-th:hover,
-tr:hover,
-input:hover,
-select:hover {
-  background: rgba(201, 171, 0, 0.643);
-  transition-duration: 250ms;
-}
-
-input,
+/* INPUT SECTION */
+input[type="text"],
 select {
-  border-radius: 0.3rem;
+  border-radius: 0.4rem;
   background: rgb(196, 196, 196);
-  /* width: 30px; */
+  outline: black;
+  padding: 4px;
+  box-shadow: 0 0 15px 4px rgba(230, 230, 230, 0.06);
+}
+
+select {
+  padding: 6px 10px;
+  margin-left: 10px;
+}
+
+input[type="text"]:focus {
+  border: rgb(0, 174, 0) 3px solid;
+}
+
+input[type="text"] {
+  border: rgb(88, 88, 88) 3px solid;
 }
 
 /*prevents label from activating input:hover*/
 label {
   pointer-events: none;
+}
+
+/* BUTTONS AT THE BOTTOM */
+#submit {
+  color: currentColor;
+  padding: var(--size-bezel) calc(var(--size-bezel) * 2);
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--size-radius);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+#submit:hover {
+  background-color: green;
+  cursor: pointer;
+  transition-duration: 500ms;
+}
+
+#reset {
+  color: currentColor;
+  padding: var(--size-bezel) calc(var(--size-bezel) * 2);
+  margin-left: 1.2rem;
+  background: none;
+  border: none;
+  font-weight: 900;
+  font-size: 1.1rem;
+  box-shadow: none;
+}
+
+#reset:hover {
+  cursor: pointer;
+}
+
+/* RESULTS TABLE */
+table,
+th,
+td {
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+th:hover,
+tr:hover,
+td:hover {
+  background: rgba(201, 171, 0, 0.643);
+  transition-duration: 250ms;
+  outline: none;
 }
