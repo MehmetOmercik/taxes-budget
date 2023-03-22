@@ -4,7 +4,7 @@ from django.contrib import messages
 import re
 
 from .forms import TaxesForm, BudgetForm
-from .Tax_And_Budget_Classes import Taxes, Budget, round_twosf, round_twosf_month
+from .tax_budget_classes import Taxes, Budget, round_twosf, round_twosf_month
 
 # Create your views here.
 def Home(request):
@@ -15,13 +15,9 @@ def Home(request):
     # This and the taxes_form below is used to reset or persist data
     taxes_form = TaxesForm()
     budget_form = BudgetForm()
-    # if taxes_form.is_valid():
-    #     context2 = taxes_form.cleaned_data.get("gross_salary")
-    # print(context2)
     if "taxes_form" in request.POST:
         taxes_form = TaxesForm(request.POST)
         budget_form = BudgetForm(request.POST)
-        # print(request.POST)
 
         """INCOME SECTION"""
 
@@ -54,8 +50,8 @@ def Home(request):
         ]
 
         # Checking whether the user selected the student loan or not and appends functions to actions
+        # Forms process boolean as a string for some reason
         if request.POST["student_loan"] == "True":
-            # Forms process boolean as a string for some reason
             actions_income.append(["Student Loan", gross_income.get_student_tax()])
             actions_income.append(["Total Deductions", gross_income.get_total_tax()])
             actions_income.append(["Total Income", gross_income.calculate_income()])
@@ -66,52 +62,29 @@ def Home(request):
             actions_income.append(
                 ["Total Income", gross_income.calculate_income_wost()]
             )
-
-        for action in actions_income:
-            final_results_income.append(
-                [
-                    action[0],
-                    f"£{round_twosf(action[1])}",
-                    f"£{round_twosf_month(action[1])}",
-                ]
-            )
+        
+        final_results_income = [[action[0],  f"£{round_twosf(action[1])}", f"£{round_twosf_month(action[1])}"] for action in actions_income]
 
         """ BUDGET SECTION """
-        rent = (
-            re.sub("[£$,:;_]", "", request.POST["rent"])
-            if request.POST["rent"] != ""
-            else 0
-        )
-        bills = (
-            re.sub("[£$,:;_]", "", request.POST["bills"])
-            if request.POST["bills"] != ""
-            else 0
-        )
 
-        food = (
-            re.sub("[£$,:;_]", "", request.POST["food"])
-            if request.POST["food"] != ""
-            else 0
-        )
+        """THIS PART CREATES VARIABLES VIA A FOR LOOP AND LIST"""
+        budget_fields = [
+            "rent",
+            "bills",
+            "food",
+            "toiletries",
+            "savings",
+            "miscellaneous",
+        ]
 
-        toiletries = (
-            re.sub("[£$,:;_]", "", request.POST["toiletries"])
-            if request.POST["toiletries"] != ""
-            else 0
-        )
+        for field in budget_fields:
+            globals()[field] = (
+                re.sub("[£$,:;_]", "", request.POST[field])
+                if request.POST[field] != ""
+                else 0
+            )
 
-        savings = (
-            re.sub("[£$,:;_]", "", request.POST["savings"])
-            if request.POST["savings"] != ""
-            else 0
-        )
-
-        miscellaneous = (
-            re.sub("[£$,:;_]", "", request.POST["miscellaneous"])
-            if request.POST["miscellaneous"] != ""
-            else 0
-        )
-
+        """This stuff comes up as undefined because these variables arent declared but generated via the loop above"""
         # Checking for anything other than int or float
         try:
             float(rent) or float(bills) or float(food) or float(toiletries) or float(
@@ -123,7 +96,8 @@ def Home(request):
                 "Incorrect input within budget section",
             )
             return redirect("home")
-        rent, bills, food, toiletries, savings, miscellaneous = (
+
+        rent_f, bills_f, food_f, toiletries_f, savings_f, miscellaneous_f = (
             float(rent),
             float(bills),
             float(food),
@@ -132,7 +106,7 @@ def Home(request):
             float(miscellaneous),
         )
         budget = Budget(
-            rent, bills, food, toiletries, savings, miscellaneous, gross_income
+            rent_f, bills_f, food_f, toiletries_f, savings_f, miscellaneous_f, gross_income
         )
 
         actions_budget = [["Yearly Budget", budget.calculate_yearly_budget()]]
@@ -141,15 +115,8 @@ def Home(request):
             actions_budget.append(["Profit/Loss", budget.calculate_profit()])
         else:
             actions_budget.append(["Profit/Loss", budget.calculate_profit_wost()])
-
-        for action in actions_budget:
-            final_results_budget.append(
-                [
-                    action[0],
-                    f"£{round_twosf(action[1])}",
-                    f"£{round_twosf_month(action[1])}",
-                ]
-            )
+        
+        final_results_budget = [[action[0], f"£{round_twosf(action[1])}", f"£{round_twosf_month(action[1])}",] for action in actions_budget]
 
         if final_results_budget[0][1] != "£0.00":
             budget_hide = 0
