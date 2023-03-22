@@ -25,9 +25,8 @@ body {
   background: linear-gradient(
     to right,
     rgba(70, 1, 189, 0.798),
-    rgb(183, 183, 183)
+    rgba(35, 0, 95, 0.7)
   );
-  /* font-size: 1.2rem; */
   color: whitesmoke;
   font: 1.2rem "Red Hat Display", sans-serif;
   padding: 1.4rem;
@@ -71,11 +70,11 @@ label {
   border-radius: var(--size-radius);
   font-weight: 900;
   font-size: 1.1rem;
+  cursor: pointer;
 }
 
 #submit:hover {
   background-color: green;
-  cursor: pointer;
   transition-duration: 500ms;
 }
 
@@ -88,9 +87,6 @@ label {
   font-weight: 900;
   font-size: 1.1rem;
   box-shadow: none;
-}
-
-#reset:hover {
   cursor: pointer;
 }
 
@@ -107,6 +103,4 @@ th:hover,
 tr:hover,
 td:hover {
   background: rgba(201, 171, 0, 0.643);
-  transition-duration: 250ms;
-  outline: none;
 }
