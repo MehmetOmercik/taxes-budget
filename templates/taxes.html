@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mems22 | Taxes calculation website</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'taxes.css' %}?{% now 'U' %}" />
+    <script type="text/javascript" src="{% static 'taxes.js' %}" defer></script>
+  </head>
+  <body>
+    <h1>Taxes page calculation</h1>
+    <form method="POST" action="">
+      {% csrf_token %} {{TaxesForm.as_p}} 
+
+      <section id="budget_section" hidden>
+        <h3>Budget (Optional)</h3>
+        {{BudgetForm.as_p}}
+      </section>
+      <div>
+        <input type="submit" id="submit" value="Submit" name="taxes_form" />
+        <input type="reset" id="reset" value="Reset" />  
+      </div>
+      </form>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+              {{ message }}</li>
+        {% endfor %}
+    </ul>
+   {% endif %}
+    <br>
+  
+   {% if final_results_income %}
+    <table style="width:100%">
+      <tr>
+        <th>Income</th>
+        <th>Annually</th>
+        <th>Monthly</th>
+      </tr>
+      {% for result in final_results_income %}
+      <tr>
+        <td>{{result.0}}</td>
+        <td>{{result.1}}</td> 
+        <td>{{result.2}}</td> 
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <br>
+
+  {% if budget_hide == 0%}
+  <table style="width:100%">
+    <tr>
+      <th>Budget</th>
+      <th>Annually</th>
+      <th>Monthly</th>
+    </tr>
+    {% for result in final_results_budget %}
+    <tr>
+      <td>{{result.0}}</td>
+      <td>{{result.1}}</td> 
+      <td>{{result.2}}</td> 
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+  </body>
+</html>

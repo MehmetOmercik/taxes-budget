@@ -117,8 +117,8 @@ class Budget:
 
 
 def round_twosf(variable):
-    return f"{round(variable, 2):.2f}"
+    return f"{round(variable, 2):,.2f}"
 
 
 def round_twosf_month(variable):
-    return f"{round(variable/12, 2):.2f}"
+    return f"{round(variable/12, 2):,.2f}"
