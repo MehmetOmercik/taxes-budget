@@ -8,6 +8,10 @@ class Taxes:
         self.gross_income = gross_income
         self.council_tax = council_tax
 
+    #Mainly for testing purposes
+    def get_instantiation(self):
+        return self.gross_income, self.council_tax
+
     def get_income_tax(self):
         personal_allowance = 12570
         """ Calculating personal allowance if it goes over £100,000 

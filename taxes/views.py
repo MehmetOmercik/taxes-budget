@@ -4,7 +4,7 @@ from django.contrib import messages
 import re
 
 from .forms import TaxesForm, BudgetForm
-from .tax_budget_classes import Taxes, Budget, round_twosf, round_twosf_month
+from .functionality.tax_budget_classes import Taxes, Budget, round_twosf, round_twosf_month
 
 # Create your views here.
 def Home(request):
