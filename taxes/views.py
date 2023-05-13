@@ -4,7 +4,13 @@ from django.contrib import messages
 import re
 
 from .forms import TaxesForm, BudgetForm
-from .tax_budget_classes import Taxes, Budget, round_twosf, round_twosf_month
+from .functions.tax_budget_classes import (
+    Taxes,
+    Budget,
+    round_twosf,
+    round_twosf_month,
+)
+
 
 # Create your views here.
 def Home(request):
@@ -62,8 +68,11 @@ def Home(request):
             actions_income.append(
                 ["Total Income", gross_income.calculate_income_wost()]
             )
-        
-        final_results_income = [[action[0],  f"£{round_twosf(action[1])}", f"£{round_twosf_month(action[1])}"] for action in actions_income]
+
+        final_results_income = [
+            [action[0], round_twosf(action[1]), round_twosf_month(action[1])]
+            for action in actions_income
+        ]
 
         """ BUDGET SECTION """
 
@@ -106,7 +115,13 @@ def Home(request):
             float(miscellaneous),
         )
         budget = Budget(
-            rent_f, bills_f, food_f, toiletries_f, savings_f, miscellaneous_f, gross_income
+            rent_f,
+            bills_f,
+            food_f,
+            toiletries_f,
+            savings_f,
+            miscellaneous_f,
+            gross_income,
         )
 
         actions_budget = [["Yearly Budget", budget.calculate_yearly_budget()]]
@@ -115,8 +130,15 @@ def Home(request):
             actions_budget.append(["Profit/Loss", budget.calculate_profit()])
         else:
             actions_budget.append(["Profit/Loss", budget.calculate_profit_wost()])
-        
-        final_results_budget = [[action[0], f"£{round_twosf(action[1])}", f"£{round_twosf_month(action[1])}",] for action in actions_budget]
+
+        final_results_budget = [
+            [
+                action[0],
+                f"£{round_twosf(action[1])}",
+                f"£{round_twosf_month(action[1])}",
+            ]
+            for action in actions_budget
+        ]
 
         if final_results_budget[0][1] != "£0.00":
             budget_hide = 0

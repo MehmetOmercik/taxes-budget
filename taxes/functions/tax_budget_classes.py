@@ -4,11 +4,15 @@ https://www.gov.uk/repaying-your-student-loan/what-you-pay : Student loan repaym
 
 
 class Taxes:
-    def __init__(self, gross_income, council_tax):
+    def __init__(self, gross_income: float, council_tax: float) -> None:
         self.gross_income = gross_income
         self.council_tax = council_tax
 
-    def get_income_tax(self):
+    # Mainly for testing purposes
+    def get_instantiation(self) -> list:
+        return self.gross_income, self.council_tax
+
+    def get_income_tax(self) -> list:
         personal_allowance = 12570
         """ Calculating personal allowance if it goes over £100,000 
         (goes down by £1 for every £2 earned over)"""
@@ -44,7 +48,7 @@ class Taxes:
         return [income_tax, personal_allowance, taxable_income]
         # so income_tax()[0] = income_tax, income_tax[1] = personal_allowance and income_tax[2] = taxable_income
 
-    def get_NI_tax(self):
+    def get_NI_tax(self) -> float:
         # NI Tax
         # First band
         if self.gross_income <= 12570:
@@ -58,7 +62,7 @@ class Taxes:
 
         return ni_tax
 
-    def get_student_tax(self):
+    def get_student_tax(self) -> float:
         # Student loan repayment
         if self.gross_income > 27288:  # threshold for loan repayment
             student_tax = (self.gross_income - 27288) * 0.09
@@ -66,7 +70,7 @@ class Taxes:
             student_tax = 0
         return student_tax
 
-    def get_total_tax(self):
+    def get_total_tax(self) -> float:
         return (
             Taxes.get_income_tax(self)[0]
             + Taxes.get_NI_tax(self)
@@ -75,18 +79,27 @@ class Taxes:
         )
 
     # Total tax without student tax
-    def get_total_tax_wost(self):
+    def get_total_tax_wost(self) -> float:
         return Taxes.get_income_tax(self)[0] + Taxes.get_NI_tax(self) + self.council_tax
 
-    def calculate_income(self):
+    def calculate_income(self) -> float:
         return self.gross_income - Taxes.get_total_tax(self)
 
-    def calculate_income_wost(self):
+    def calculate_income_wost(self) -> float:
         return self.gross_income - Taxes.get_total_tax_wost(self)
 
 
 class Budget:
-    def __init__(self, rent, bills, food, toiletries, savings, miscellaneous, taxes):
+    def __init__(
+        self,
+        rent: float,
+        bills: float,
+        food: float,
+        toiletries: float,
+        savings: float,
+        miscellaneous: float,
+        taxes: object,
+    ) -> None:
         self.rent = rent
         self.bills = bills
         self.food = food
@@ -95,7 +108,19 @@ class Budget:
         self.miscellaneous = miscellaneous
         self.taxes = taxes
 
-    def calculate_monthly_budget(self):
+    # Mainly for testing purposes
+    def get_instantiation(self) -> list:
+        return (
+            self.rent,
+            self.bills,
+            self.food,
+            self.toiletries,
+            self.savings,
+            self.miscellaneous,
+            self.taxes,
+        )
+
+    def calculate_monthly_budget(self) -> float:
         return (
             self.rent
             + self.food
@@ -105,20 +130,20 @@ class Budget:
             + self.miscellaneous
         )
 
-    def calculate_yearly_budget(self):
+    def calculate_yearly_budget(self) -> float:
         return 12 * Budget.calculate_monthly_budget(self)
 
-    def calculate_profit(self):
+    def calculate_profit(self) -> float:
         return self.taxes.calculate_income() - Budget.calculate_yearly_budget(self)
         # First term utilises a function in the taxes class by including taxes in the initialisation function
 
-    def calculate_profit_wost(self):
+    def calculate_profit_wost(self) -> float:
         return self.taxes.calculate_income_wost() - Budget.calculate_yearly_budget(self)
 
 
-def round_twosf(variable):
-    return f"{round(variable, 2):,.2f}"
+def round_twosf(variable: int) -> str:
+    return f"£{round(variable, 2):,.2f}"
 
 
-def round_twosf_month(variable):
-    return f"{round(variable/12, 2):,.2f}"
+def round_twosf_month(variable: int) -> str:
+    return f"£{round(variable/12, 2):,.2f}"
